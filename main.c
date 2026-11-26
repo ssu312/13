@@ -1,22 +1,33 @@
-/*실습 1: 동적 메모리 활용 예제*/
-
+/*실습 2: 구조체에 대한 동적 할당*/
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-void main(void){
-    char *pc = NULL;
-    int i=0;
+struct Book{
+    int number;
+    char title[20];
+};
 
-    pc = (char*)malloc(100*sizeof(char));
-    if (pc==NULL) {
-        printf("메모리 할당 오류\n");
-        exit(1);
+int main(void){
+    struct Book *p;
+
+    p = (struct Book *)malloc(2*sizeof(struct Book)); //BOOK 구조체 2개 동적 할당
+
+    if (p == NULL)
+    {
+        printf("memory allocation error!\n");
+        return -1;
     }
 
-    for (i=0;i<26;i++){
-        pc[i] = 'a'+i;
-    }
-    pc[i] = 0;
-    printf("%s\n", pc);
-    free(pc);
+    p->number = 1;
+    strcpy(p->title, "C Programming");
+
+    (p+1)->number = 2;
+    strcpy((p+1)->title, "Electronics");
+
+    printf("%i : %s\n", p->number,p->title);
+    printf("%i : %s\n",(p+1)->number,(p+1)->title);
+    free(p);
+
+    return 0;
 }
